@@ -144,7 +144,7 @@ The model of Redis working on is client-server. Just like other client-server mo
 The Redis protocol contains two parts, which are a header and a body. The body of a request is made of command and arguments, while the body of a response is the data payload. The header of a response contains the information, such as the success or failure flag of the request. 
 Let’s see the protocol in detail from the perspective of a request and response.
 As it is shown in Figure 1, there are two parts in any Redis client request. The first part is header, which contains information about the number of arguments of the command. The second part is the body part, which contains three small parts. The first part of a body is the number of bytes for every argument, and the second part of a body is the actual arguments, and the last part of a body is carriage return and line feeds.
-
+![Figure 1 Request Protocol Structure](/uploads/redis1.png "Request Protocol Structure")
 Considering the response in Redis, there are two types. The first type is the response of the commands that do not expect a return value. A plus sign or minus sign would be contained in the response. The plus sign indicates that the request was successful and the minus sign represents that the request failed. The second type of response is the response of the commands that retrieve data from the server. ‘$-1’ will be the response if an error happens and the response would contain a dollar sign, the size of the response, and the retrieved data if the request succeeds.
 After having a basic knowledge of data structures provided by Redis and the communication protocol between Redis client and server, the advantages and disadvantages of Redis will be discussed in the next section.
 
