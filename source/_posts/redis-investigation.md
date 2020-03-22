@@ -24,9 +24,9 @@ Key-value databases may be one of the simplest and fastest NoSQL datastores. In 
 As the word suggests, the data structure is the structure of storing data. The complexity of data structures may be quite different. A series of characters may be the simplest data structure and maps may be an example of a complicated data structure. In addition, there are often data structures within data structures, in other words, we can put a map inside a map.
 The management of memory and performance are the essential parts in constructing a data structure. The common data structures we often use in different programming languages are tuples, lists, maps, queues, stacks, and so on. When it comes to evaluate the efficiency of the data structure, we actually are evaluating the efficiency of algorithms handling with the data structure. In order to indicate the time efficiency of an algorithm, the big O notation is introduced. From the viewpoint of Redis, we’ll group the data structures according to the notations showed in Table 1.
 _Table 1 Big O Notations_
-<!-- toc -->
+
 | O Notation	| Description |
-|---------------|:-------------|
+|---------------|-------------|
 |O(1) |	Time taken on a data structure is a constant. |
 |O(N) |	Time taken on a data structure depends on the amount of data contained linearly.|
 |O(log(N)) |	Time taken on a data structure has a logarithmic relation with the amount of data contained. |
@@ -45,84 +45,84 @@ struct sdshdr {
 The actual string is stored in the character array buf. The attribute len stores the length of buf, which makes retrieve the length of a Redis string an O(1) operation. The field free stores the number of available bytes for use. The two fields, free and len, could be regarded as the metadata of the character array. Any integer, string, image files are stored in character array in Redis and Redis has a mechanism of detecting the type of the data stored in an array.
 There are three kinds of operations in Redis for the data structure strings. Table 2, Table 3, and Table 4 shows the setters and getters command, data clean commands, and utility commands respectively.
 _Table 2 Setters and Getters Commands_
-<!-- toc -->
-|Command	|Time Complexity	|Description|
-|----------|-------------|---------|
-|GET key|	O(1)	|Get the value of the key. If the key does not exist, return nil. If the value is not a string, return error|
-|SET key value 	|O(1)	|Set the key to hold the string value. If the key already holds a value, it is overwritten, regardless of its type. Any previous time to live associated with the key is discarded on the successful SET operation.|
-|SETNX key value	|O(1)	|Set the value if the key does not exist.|
-|GETSET key value|	O(1)	|Get the old value, then set a new value.|
-|MGET key1 key2	|O(N)	|Gets all the values of the keys listed.|
-|MSET key1 value1 key2 value 2	|O(N), N is the number of keys to set|	Set the keys to values respectively|
-|MSETNX key1 value1 key2 value2|	O(N), N is the number of keys to set|	If the key does not exist, set the keys to values respectively|
+
+Command	|Time Complexity	|Description
+----------|-------------|---------
+GET key|	O(1)	|Get the value of the key. If the key does not exist, return nil. If the value is not a string, return error
+SET key value 	|O(1)	|Set the key to hold the string value. If the key already holds a value, it is overwritten, regardless of its type. Any previous time to live associated with the key is discarded on the successful SET operation.
+SETNX key value	|O(1)	|Set the value if the key does not exist.
+GETSET key value|	O(1)	|Get the old value, then set a new value.
+MGET key1 key2	|O(N)	|Gets all the values of the keys listed.
+MSET key1 value1 key2 value 2	|O(N), N is the number of keys to set|	Set the keys to values respectively
+MSETNX key1 value1 key2 value2|	O(N), N is the number of keys to set|	If the key does not exist, set the keys to values respectively
 
 _Table 3 Data Clean Commands_
-<!-- toc -->
-|Command|	Time Complexity|	Description|
-|------|------------|------|
-|SET [PX\|EX]|	O(1)	|Set the expiry milliseconds or seconds to the key.|
-|SETEX key seconds value	|O(1)	|Atomic operation. Set a value and set the expiry seconds.|
+
+Command|	Time Complexity|	Description
+------|------------|------
+SET [PX\|EX]|	O(1)	|Set the expiry milliseconds or seconds to the key.
+SETEX key seconds value	|O(1)	|Atomic operation. Set a value and set the expiry seconds.
 
 
 _Table 4 Utility Commands_
-<!-- toc -->
-|Command	|Time Complexity|	Description|
-|----------|------------|-------|
-|APPEND	|O(1)	|Appends to a value or set.|
-|STRLEN	|O(1)	|Get the value of the stored string.|
-|SETRANGE	|O(1)	|Replace the string at the given range.|
-|GETRANGE	|O(1)	|Get the string at the given range.|
+
+Command	|Time Complexity|	Description
+----------|------------|-------
+APPEND	|O(1)	|Appends to a value or set.
+STRLEN	|O(1)	|Get the value of the stored string.
+SETRANGE	|O(1)	|Replace the string at the given range.
+GETRANGE	|O(1)	|Get the string at the given range.
 
 The next one we will talk about is **bitmap data type**. Actually, bitmap is not a data type, it is a set of bit operations on string data type. As string data type is binary-safe and it can store 512MB data, which is 232 bits. There are two types of bit operations: O(1) time complexity bit operations, and operations on groups of bits, which are shown in Table 5 and Table 6 respectively.
 _Table 5 Single Bit Operations Commands_
-<!-- toc -->
-|Command|	Description	|Example|
-|------|-----|------|
-|SETBIT key offset value|	Sets or clears the bit at offset in the string value stored at key. And the return value is the original bit value stored at offset.|	SETBIT key1 10 1|
-|GETBIT key offset	|Returns the bit value at offset in the string value stored at key.	|GETBIT key1 010|
+
+Command|	Description	|Example
+------|-----|------
+SETBIT key offset value|	Sets or clears the bit at offset in the string value stored at key. And the return value is the original bit value stored at offset.|	SETBIT key1 10 1
+GETBIT key offset	|Returns the bit value at offset in the string value stored at key.	|GETBIT key1 010
 
 
 _Table 6 Multiple Bits Operations Commands_
-<!-- toc -->
-|Command	|Description	|Example|
-|-----|------|-------|
-|BITOP AND/OR/XOR/NOT |	Performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT. Time complexity is O(N).	|BITOP AND destkey srckey1 srckey2|
-|BITCOUNT key [start end]	|Performs population counting, reporting the number of bits set to 1.	|BITCOUNT key1|
-|BITPOS	|Finds the first bit having the specified value of 0 or 1.	|BITPOS mykey 0|
+
+Command	|Description	|Example
+-----|------|-------
+BITOP AND/OR/XOR/NOT |	Performs bit-wise operations between different strings. The provided operations are AND, OR, XOR and NOT. Time complexity is O(N).	|BITOP AND destkey srckey1 srckey2
+BITCOUNT key [start end]	|Performs population counting, reporting the number of bits set to 1.	|BITCOUNT key1
+BITPOS	|Finds the first bit having the specified value of 0 or 1.	|BITPOS mykey 0
 
 The next we are going to talk about is **hash data type**. Due to the data is represented by field-value pairs, it is very convenient to store objects using hash data type. There are no limits in the number of attributes that you could put within a hash. Table 7 shows the commands relating to hash data type.
 _Table 7 Hash Operations Commands_
-<!-- toc -->
-|Command	|Description	|Example	|Time Complexity|
-|----|-----|-----|-----|
-|HDEL key field [field\…]|	Remove the fields of the key.	|HDEL key1 field1	|O(N) N is removed fields’ number.|
-|HEXISTS key field	|Test whether the field exists in the key hash.	|HEXISTS key1 field1	|O(1) |
-|HGET key field	|Get the value of the field.	|HGET key1 field1|	O(1)|
-|HGETALL key|	Get all fields value	|HGETALL key1	|O(N), N is the number of fields.|
-|HKEYS key|	Get all fields|	HKEYS key1|	O(N), N is the number of fields.|
+
+Command	|Description	|Example	|Time Complexity|
+----|-----|-----|-----
+HDEL key field [field\…]|	Remove the fields of the key.	|HDEL key1 field1	|O(N) N is removed fields’ number.
+HEXISTS key field	|Test whether the field exists in the key hash.	|HEXISTS key1 field1	|O(1) 
+HGET key field	|Get the value of the field.	|HGET key1 field1|	O(1)
+HGETALL key|	Get all fields value	|HGETALL key1	|O(N), N is the number of fields.
+HKEYS key|	Get all fields|	HKEYS key1|	O(N), N is the number of fields.
 
 **List data type** is the next one. The terminology List is different in different programming languages. For example, Java LinkedList is a series of elements linked together, while Python List is an array. In general, a List is a sequence of elements and there are two implements to represent it: array or linked list. The list data type in Redis is linked list. No matter how many elements are there in the list, the operation of adding an element at the end or head of the list could be processed in an constant time. However, the disadvantage of this implement is the high time complexity when accessing an element randomly.
 The reason why using a linked list to implement Redis list is that the ability to add elements to a quite large list quickly is essential for a database management system.
 Table 8 shows some frequently used commands operating list.
 _Table 8 Commands Operations on List_
-<!-- toc -->
-|Command|	Description	|Example	|Time Complexity|
-|---|-----|-----|----|
-|LPUSH key element [element…]|	Insert elements to the head of the list.	|LPUSH key1 e1 e2	|O(1)|
-|RPUSH key element [element…]|	Insert elements to the tail of the list.	|RPUSH key1 e1 e2|	O(1)|
-|LPOP key	|Delete and return the first element of the list.	|LPOP key1	|O(1)|
-|RPOP key	|Delete and return the last element of the list.|	RPOP key1	|O(1)|
+
+Command|	Description	|Example	|Time Complexity
+---|-----|-----|----
+LPUSH key element [element…]|	Insert elements to the head of the list.	|LPUSH key1 e1 e2	|O(1)
+RPUSH key element [element…]|	Insert elements to the tail of the list.	|RPUSH key1 e1 e2|	O(1)
+LPOP key	|Delete and return the first element of the list.	|LPOP key1	|O(1)
+RPOP key	|Delete and return the last element of the list.|	RPOP key1	|O(1)
 
 The last data structure introduced is Redis **set**. Redis set is random collection of strings. The attractive aspect of Redis set is that the time complexity of operations on adding, deleting, and checking the existence of an element is constant time. Table 9 is the commands operating set.
 _Table 9 Commands on Set_
-<!-- toc -->
-|Command	|Description	|Example	|Time Complexity|
-|----|-----|-----|----|
-|SADD	|Add elements to the set.|	SADD set1 e1 e2	|O(N), N is the number of elements to be added.|
-|SREM	|Delete and return elements from the set.	|SREM set1 e1 e2	|O(N), N is the number of elements to be removed.|
-|SCARD	|Get the number of elements in the set.	|SCARD set1|	O(1)|
-|SDIFF|	Get elements which equals the first set subtracting the following sets.	|SDIFF set1 set2	|O(N), N is the number of elements in all sets.|
-|SISMEMBER|	Check if the elements exists|	SISMEMBER set1 e1	|O(1)|
+
+Command	|Description	|Example	|Time Complexity
+----|-----|-----|----
+SADD	|Add elements to the set.|	SADD set1 e1 e2	|O(N), N is the number of elements to be added.
+SREM	|Delete and return elements from the set.	|SREM set1 e1 e2	|O(N), N is the number of elements to be removed.
+SCARD	|Get the number of elements in the set.	|SCARD set1|	O(1)
+SDIFF|	Get elements which equals the first set subtracting the following sets.	|SDIFF set1 set2	|O(N), N is the number of elements in all sets.
+SISMEMBER|	Check if the elements exists|	SISMEMBER set1 e1	|O(1)
 
 ## Communication Protocol
 The model of Redis working on is client-server. Just like other client-server models, the server and client service needs to use a protocol to communicate with each other. Communication protocol is some fixed agreement or standards that clients and servers follow in order to exchange messages successfully. 
