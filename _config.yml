@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Yanan Li(Ryan)
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: Yanan Li(Ryan)
 language: en
-timezone: ''
+timezone: 'Pacific/Auckland'
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
