@@ -260,6 +260,136 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/29/Number/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yanan Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Yanan Li">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/29/Number/" itemprop="url">Algorithm-Palindrome Number</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-29T23:45:31+12:00">
+                2020-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><p>Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.</p>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: -1</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 101</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: 20</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pseudocode"><a href="#Pseudocode" class="headerlink" title="Pseudocode"></a>Pseudocode</h2><p>Actually, the first thought rising up in my mind was to convert the integer number into string, then compare the characters. However, there is a follow up requirement, which is <code>Coud you solve it without converting the integer to a string?</code>. Then I thought of another way: get each digit of the integer, store them into a array list, then compare these digits.</p>
+<h2 id="Implementation-Java"><a href="#Implementation-Java" class="headerlink" title="Implementation-Java"></a>Implementation-Java</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import java.util.List;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public class Solution&#123;</span><br><span class="line">    public boolean isPalindrome(int x) &#123;</span><br><span class="line"></span><br><span class="line">        if(x &lt; 0)&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if(x &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; split each digit of the number x</span><br><span class="line">        List&lt;Integer&gt; numberList &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">        int remainder &#x3D; 0;</span><br><span class="line">        int divideNumber &#x3D; 10;</span><br><span class="line">        for(;;)&#123;</span><br><span class="line">            remainder &#x3D; x % divideNumber;</span><br><span class="line">            x &#x3D; x &#x2F; divideNumber;</span><br><span class="line">            numberList.add(remainder);</span><br><span class="line">            if(x &#x3D;&#x3D; 0)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; compare forward digits with backward digits</span><br><span class="line">        boolean flag &#x3D; true;</span><br><span class="line">        for(int i&#x3D;0, j&#x3D; numberList.size() - 1; i &lt; j; i++, j--)&#123;</span><br><span class="line">            if(numberList.get(i) !&#x3D; numberList.get(j))&#123;</span><br><span class="line">                flag &#x3D; false;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return flag;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Improved-Implementation"><a href="#Improved-Implementation" class="headerlink" title="Improved Implementation"></a>Improved Implementation</h2><p>The improved algorithm is from the <a href="https://leetcode.com/problems/palindrome-number/discuss/599060/Super-simple-java-solution-without-changing-to-String" target="_blank" rel="noopener">online discussion</a>. It is a little different from my solution but the general idea is the same. This implement directly calculate the reversed number of the original number, which makes the logic more clearly.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class Solution&#123;</span><br><span class="line">    public boolean isPalindrome(int x) &#123;</span><br><span class="line">        int original &#x3D; x;</span><br><span class="line">        </span><br><span class="line">        if(x &lt; 0)&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        int reverse &#x3D; 0;</span><br><span class="line">        while(x &gt;&#x3D; 1)&#123;</span><br><span class="line">            int digit &#x3D; x % 10;</span><br><span class="line">            reverse &#x3D; reverse * 10 + digit;</span><br><span class="line">            x &#x3D; x &#x2F; 10;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(reverse &#x3D;&#x3D; original)&#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://leetcode.com/problems/palindrome-number/" target="_blank" rel="noopener">Palindrome Numbers</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/22/Redis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -734,7 +864,7 @@ Zhang, H., Tudor, B. M., Chen, G., & Ooi, B. C. (2014). Efficient in-memory data
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -747,7 +877,7 @@ Zhang, H., Tudor, B. M., Chen, G., & Ooi, B. C. (2014). Efficient in-memory data
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">tags</span>
               
             </div>
